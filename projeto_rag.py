@@ -69,25 +69,29 @@ def inicializacao(pasta:str):
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
-            """Você deve localizar a ocorrência literal da palavra informada na pergunta,
-    utilizando exclusivamente o contexto fornecido.
+            """
+    Você é um assistente de busca inteligente com a função de fazer a leitura dos documentos.
+    Você deve localizar a ocorrência literal da PALAVRA_ALVO no contexto fornecido.
     
-    A busca deve ser exata (case-insensitive).
-    Não utilize sinônimos, variações ou interpretação semântica.
+    REGRAS:
+    - A busca deve ser EXATA e CASE-INSENSITIVE.
+    - Não considere sinônimos, variações morfológicas, ou correspondências parciais que não incluam a PALAVRA_ALVO literal.
+    - Use SOMENTE o contexto fornecido (não use conhecimento externo).
+    - Se não houver ocorrências, responda exatamente:
+      " A palavra 'palavra' não encontrada nos documentos fornecidos."
+    - Para cada ocorrência, retorne no formato abaixo (NÃO altere o formato):
+     
+        Resposta:
+        Ocorrências encontradas:
+        - Documento: <nome_do_documento>
+        > Página: <número_da_página>
+        > Trecho: "<frase ou parágrafo onde a palavra aparece>"
     
-    Se a palavra não existir no contexto, responda exatamente:
-    "Palavra não encontrada nos documentos fornecidos."
+    (Repita para cada ocorrência encontrada)
     
     Contexto:
     {contexto}
-    
-    Resposta:
-    Ocorrências encontradas:
-    - Documento: <nome_do_documento>
-    > Página: <número_da_página>
-    > Trecho: "<frase ou parágrafo onde a palavra aparece>"
-    
-    (Repita para cada ocorrência encontrada)"""
+        """
         ),
         ("human", "{pergunta}")
     ])
@@ -106,6 +110,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
