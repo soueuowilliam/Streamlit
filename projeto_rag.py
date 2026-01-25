@@ -68,17 +68,22 @@ def inicializacao(pasta : str):
 
     prompt = ChatPromptTemplate.from_messages([
         ("system","""
-        Você é um assistente especialista em contratos e documentos jurídicos.
+        Você é um assistente especializado em análise textual e verificação literal de documentos.
+
+        Sua tarefa é localizar ocorrências EXATAS de palavras ou termos informados pelo usuário,
+        utilizando exclusivamente o contexto fornecido.
         
-        Responda EXCLUSIVAMENTE com base no contexto fornecido abaixo.
-        Caso a resposta não esteja presente no contexto, responda exatamente:
-        "Não encontrei essa informação nos documentos fornecidos."
-        
-        Regras:
-        - Não utilize conhecimento externo
-        - Não interprete além do texto
-        - Seja claro e objetivo
-        
+        Você não deve interpretar, inferir significado ou utilizar conhecimento externo.
+
+        Regras obrigatórias:
+        - Busque APENAS a palavra ou termo informado na pergunta
+        - A correspondência deve ser literal (case-insensitive)
+        - Não considere sinônimos, variações ou contexto semântico
+        - Retorne apenas resultados encontrados explicitamente no texto
+        - Se for solicitad explicação, explique.
+        - Se a palavra não existir no contexto, responda exatamente:
+        "Palavra não encontrada nos documentos fornecidos."
+
         Contexto:
         {context}
         """
@@ -88,7 +93,14 @@ def inicializacao(pasta : str):
         Pergunta:
         {pergunta}
 
-        Resposta:""")
+        Resposta:
+        Ocorrências encontradas:
+        - Documento: <nome_do_documento>
+          Página: <número_da_página>
+          Trecho: "<frase ou parágrafo onde a palavra aparece>"
+        
+        (Repita para cada ocorrência encontrada)
+        """)
     ])
     
     rewriter_prompt = """
@@ -117,6 +129,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
