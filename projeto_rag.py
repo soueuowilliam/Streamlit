@@ -79,7 +79,7 @@ def inicializacao(pasta:str):
     "Palavra não encontrada nos documentos fornecidos."
     
     Contexto:
-    {context}
+    {contexto}
     
     Resposta:
     Ocorrências encontradas:
@@ -123,6 +123,7 @@ def responder(pergunta: str) -> str:
         inicializacao()
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
