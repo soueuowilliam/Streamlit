@@ -10,3 +10,4 @@ pydantic>=2.7.4
 pypdf==6.5.0
 tqdm==4.67.1
 langchain-unstructured
+langchain-google-genai
