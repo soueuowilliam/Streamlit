@@ -7,7 +7,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader
 
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
@@ -107,12 +107,13 @@ def inicializacao(pasta : str):
         'contexto': RunnablePassthrough()| rewriter_chain | retriever | formatar_contexto ,
         'pergunta': RunnablePassthrough()
         } | prompt | modelo | StrOutputParser()
-    ))
+    )
 
 
 def responder(pergunta: str) -> str: 
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
