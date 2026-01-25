@@ -121,7 +121,8 @@ def inicializacao(pasta : str):
 def responder(pergunta: str) -> str: 
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
-    return _chain.invoke('pergunta':pergunta, 'contexto':contexto)
+    return _chain.invoke(pergunta)
+
 
 
 
