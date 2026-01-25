@@ -89,30 +89,14 @@ def inicializacao(pasta:str):
     
     (Repita para cada ocorrência encontrada)"""
         ),
-        (
-            "human",
-            "{pergunta}"
-        )
+        ("human", "{pergunta}")
     ])
 
     
-    rewriter_prompt = """
-    Reescreva a pergunta abaixo como uma consulta objetiva,
-    otimizada para busca semântica em um banco vetorial.
-    Explique, caso peça. Retorne apenas a consulta.
-    
-    pergunta do usuário: {user_question}
-    Consulta revisada do banco de dados vetorial:
-    """
     modelo = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5, google_api_key=api_key)
-
-    rewriter_template = PromptTemplate.from_template(rewriter_prompt)
-    
-    rewriter_chain = rewriter_template | modelo | StrOutputParser()
-
     _chain = (
         {
-        'contexto': RunnablePassthrough()| rewriter_chain | retriever | formatar_contexto ,
+        'contexto': RunnablePassthrough() | retriever | formatar_contexto ,
         'pergunta': RunnablePassthrough()
         } | prompt | modelo | StrOutputParser()
     )
@@ -122,6 +106,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
