@@ -68,22 +68,15 @@ def inicializacao(pasta : str):
 
     prompt = ChatPromptTemplate.from_messages([
         ("system","""
-        Você é um assistente especializado em análise textual e verificação literal de documentos.
-
-        Sua tarefa é localizar ocorrências EXATAS de palavras ou termos informados pelo usuário,
+        Você deve localizar a ocorrência literal da palavra informada na pergunta,
         utilizando exclusivamente o contexto fornecido.
         
-        Você não deve interpretar, inferir significado ou utilizar conhecimento externo.
-
-        Regras obrigatórias:
-        - Busque APENAS a palavra ou termo informado na pergunta
-        - A correspondência deve ser literal (case-insensitive)
-        - Não considere sinônimos, variações ou contexto semântico
-        - Retorne apenas resultados encontrados explicitamente no texto
-        - Se for solicitad explicação, explique.
-        - Se a palavra não existir no contexto, responda exatamente:
+        A busca deve ser exata (case-insensitive).
+        Não utilize sinônimos, variações ou interpretação semântica.
+        
+        Se a palavra não existir no contexto, responda exatamente:
         "Palavra não encontrada nos documentos fornecidos."
-
+        
         Contexto:
         {context}
 
@@ -130,6 +123,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
