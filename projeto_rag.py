@@ -67,35 +67,34 @@ def inicializacao(pasta : str):
     retriever = carregar_documentos(pasta)
 
     prompt = ChatPromptTemplate.from_messages([
-        ("system","""
-        Você deve localizar a ocorrência literal da palavra informada na pergunta,
-        utilizando exclusivamente o contexto fornecido.
-        
-        A busca deve ser exata (case-insensitive).
-        Não utilize sinônimos, variações ou interpretação semântica.
-        
-        Se a palavra não existir no contexto, responda exatamente:
-        "Palavra não encontrada nos documentos fornecidos."
-        
-        Contexto:
-        {context}
-
-        Resposta:
-        Ocorrências encontradas:
-        - Documento: <nome_do_documento>
-          Página: <número_da_página>
-          Trecho: "<frase ou parágrafo onde a palavra aparece>"
-        
-        (Repita para cada ocorrência encontrada)
-        """
+        (
+            "system",
+            """Você deve localizar a ocorrência literal da palavra informada na pergunta,
+    utilizando exclusivamente o contexto fornecido.
+    
+    A busca deve ser exata (case-insensitive).
+    Não utilize sinônimos, variações ou interpretação semântica.
+    
+    Se a palavra não existir no contexto, responda exatamente:
+    "Palavra não encontrada nos documentos fornecidos."
+    
+    Contexto:
+    {context}
+    
+    Resposta:
+    Ocorrências encontradas:
+    - Documento: <nome_do_documento>
+      Página: <número_da_página>
+      Trecho: "<frase ou parágrafo onde a palavra aparece>"
+    
+    (Repita para cada ocorrência encontrada)"""
         ),
-        ("human",
-            """
-        Pergunta:
-        {pergunta}
-        
-        """)
+        (
+            "human",
+            "{pergunta}"
+        )
     ])
+
     
     rewriter_prompt = """
     Reescreva a pergunta abaixo como uma consulta objetiva,
@@ -122,7 +121,8 @@ def inicializacao(pasta : str):
 def responder(pergunta: str) -> str: 
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
-    return _chain.invoke(pergunta)
+    return _chain.invoke('pergunta':pergunta, 'contexto':contexto)
+
 
 
 
