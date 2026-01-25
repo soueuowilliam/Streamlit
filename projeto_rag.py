@@ -86,12 +86,6 @@ def inicializacao(pasta : str):
 
         Contexto:
         {context}
-        """
-        ),
-        ("human",
-            """
-        Pergunta:
-        {pergunta}
 
         Resposta:
         Ocorrências encontradas:
@@ -100,6 +94,13 @@ def inicializacao(pasta : str):
           Trecho: "<frase ou parágrafo onde a palavra aparece>"
         
         (Repita para cada ocorrência encontrada)
+        """
+        ),
+        ("human",
+            """
+        Pergunta:
+        {pergunta}
+        
         """)
     ])
     
@@ -129,6 +130,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
