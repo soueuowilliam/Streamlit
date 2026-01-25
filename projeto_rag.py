@@ -62,7 +62,7 @@ def formatar_contexto(docs):
 
 _chain = None
 
-def inicializacao(pasta : str):
+def inicializacao(pasta) -> None
     global _chain
     retriever = carregar_documentos(pasta)
 
@@ -120,8 +120,10 @@ def inicializacao(pasta : str):
 
 def responder(pergunta: str) -> str: 
     if _chain is None:
+        inicializacao()
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
