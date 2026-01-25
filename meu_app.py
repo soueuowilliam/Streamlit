@@ -19,12 +19,12 @@ st.write(
 # =========================
 # AUTENTICAÇÃO
 # =========================
-senha = st.text_input("Digite sua senha:", type="password")
+#senha = st.text_input("Digite sua senha:", type="password")
 senhaacesso = "12345"
 
-if senha != senhaacesso:
-    st.info("Por favor, insira a senha para utilizar a ferramenta.", icon="🗝️")
-    st.stop()
+#if senha != senhaacesso:
+#    st.info("Por favor, insira a senha para utilizar a ferramenta.", icon="🗝️")
+#    st.stop()
 
 # =========================
 # UPLOAD (MÚLTIPLOS)
@@ -79,3 +79,4 @@ if st.button("🔄 Carregar novos documentos"):
             del st.session_state[k]
 
     st.rerun()
+
