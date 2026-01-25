@@ -99,6 +99,7 @@ def inicializacao(pasta : str):
     modelo = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5, google_api_key=api_key)
 
     rewriter_template = PromptTemplate.from_template(rewriter_prompt)
+    
     rewriter_chain = rewriter_template | modelo | StrOutputParser()
 
     _chain = (
@@ -113,4 +114,5 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
