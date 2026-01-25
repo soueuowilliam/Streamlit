@@ -67,21 +67,24 @@ def inicializacao(pasta : str):
     retriever = carregar_documentos(pasta)
 
     prompt = ChatPromptTemplate.from_messages([
-        ("system",
-            """Você é um assistente de RAG.
-
-            REGRAS:
-            - Sempre informe o nome do documento e a página
-            - Não invente informações
-            - Se não encontrar a resposta, diga claramente
-            - procure a informação através de uma palavra
-            """
+        ("system","""
+        Você é um assistente especialista em contratos e documentos jurídicos.
+        
+        Responda EXCLUSIVAMENTE com base no contexto fornecido abaixo.
+        Caso a resposta não esteja presente no contexto, responda exatamente:
+        "Não encontrei essa informação nos documentos fornecidos."
+        
+        Regras:
+        - Não utilize conhecimento externo
+        - Não interprete além do texto
+        - Seja claro e objetivo
+        
+        Contexto:
+        {context}
+        """
         ),
         ("human",
             """
-        Contexto:
-        {contexto}
-
         Pergunta:
         {pergunta}
 
@@ -114,6 +117,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
