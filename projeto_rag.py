@@ -70,24 +70,28 @@ def inicializacao(pasta:str):
         (
             "system",
             """
-    Você é um assistente de busca inteligente com a função de fazer a leitura dos documentos.
-    Você deve localizar a ocorrência literal da PALAVRA_ALVO no contexto fornecido.
-    
-    REGRAS:
-    - A busca deve ser EXATA e CASE-INSENSITIVE.
-    - Não considere sinônimos, variações morfológicas, ou correspondências parciais que não incluam a PALAVRA_ALVO literal.
-    - Use SOMENTE o contexto fornecido (não use conhecimento externo).
-    - Se não houver ocorrências, responda exatamente:
-      " A palavra 'palavra' não encontrada nos documentos fornecidos."
-    - Para cada ocorrência, retorne no formato abaixo (NÃO altere o formato):
-     
-        Resposta:
-        Ocorrências encontradas:
-        - Documento: <nome_do_documento>
-        > Página: <número_da_página>
-        > Trecho: "<frase ou parágrafo onde a palavra aparece>"
-    
-    (Repita para cada ocorrência encontrada)
+Você é um Assistente de Análise Documental especializado em RAG. Sua função é ler os fragmentos de documentos fornecidos, localizar a "PALAVRA_ALVO" e explicar o seu contexto.
+
+INSTRUÇÕES PRINCIPAIS:
+1. Localize as ocorrências da PALAVRA_ALVO no texto fornecido.
+2. A busca deve ser em CASE-INSENSITIVE (ignore maiúsculas/minúsculas).
+3. Para cada ocorrência relevante, você deve extrair o trecho exato e gerar uma breve explicação sobre o que aquele trecho diz a respeito da palavra.
+
+REGRAS DE SEGURANÇA (GUARDRAILS):
+- Utilize SOMENTE as informações presentes no contexto fornecido. Não use conhecimento externo.
+- Se a palavra aparecer múltiplas vezes no mesmo parágrafo, agrupe em uma única ocorrência.
+- Se a PALAVRA_ALVO não for encontrada ou não houver contexto suficiente para explicar, responda EXATAMENTE:
+  "A palavra 'PALAVRA_ALVO' não foi encontrada ou não possui contexto relevante nos documentos."
+
+FORMATO DE RESPOSTA (Obrigatório):
+Para cada ocorrência encontrada, siga estritamente este padrão:
+
+---
+*Documento:* <nome_do_arquivo_se_disponivel_nos_metadados>
+*Página:* <numero_da_pagina_se_disponivel>
+*Trecho Original:* "<cite exatamente a frase ou parágrafo onde a palavra aparece>"
+*Explicação:* <Escreva aqui uma breve explicação (2 a 3 linhas) resumindo o que este trecho diz sobre a PALAVRA_ALVO>
+---
     
     Contexto:
     {contexto}
@@ -110,6 +114,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
