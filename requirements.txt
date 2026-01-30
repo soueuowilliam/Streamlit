@@ -5,9 +5,10 @@ langgraph==0.4.8
 langchain-community==0.3.25
 python-dotenv==1.0.1
 langchainhub==0.1.15
-faiss-cpu==1.11.0
+faiss-cpu
 pydantic>=2.7.4
 pypdf==6.5.0
 tqdm==4.67.1
 langchain-unstructured
 langchain-google-genai
+
