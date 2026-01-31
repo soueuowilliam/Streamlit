@@ -28,7 +28,7 @@ def carregar_documentos(caminho):
             try:
                 if arquivo_norm.endswith('.pdf'):
                     documentos.extend(PyPDFLoader(caminho_arquivo).load())
-                elif arquivo_norm.endswith('.doc'):
+                elif arquivo_norm.endswith('.docx'):
                     documentos.extend(Docx2txtLoader(caminho_arquivo).load())
                 else:
                     continue
@@ -38,6 +38,8 @@ def carregar_documentos(caminho):
 
     if not documentos:
         raise RuntimeError('Nenhum documento encontrado.')
+    else:
+        print(f'{len(documentos) documentos carregados')
 
     embeddings = GoogleGenerativeAIEmbeddings(
         model="text-embedding-004",
@@ -56,7 +58,10 @@ def formatar_contexto(docs):
     for doc in docs:
         arquivo = os.path.basename(doc.metadata.get("source", "N/A"))
         pagina = doc.metadata.get("page")
-        pagina_txt = f"Página {pagina + 1}" if pagina is not None else "Página não aplicável"
+        if pagina is not None and isinstance(pagina, int):
+            pagina_txt = f"Página {pagina + 1}"
+        else:
+            pagina_txt = 'Página não aplicável'
         textos.append(f"📄 {arquivo} | {pagina_txt}\n{doc.page_content}")
     return "\n\n".join(textos)
 
@@ -114,6 +119,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
