@@ -39,7 +39,7 @@ def carregar_documentos(caminho):
     if not documentos:
         raise RuntimeError('Nenhum documento encontrado.')
     else:
-        print(f'{len(documentos) documentos carregados')
+        print(f'{len(documentos)} documentos carregados')
 
     embeddings = GoogleGenerativeAIEmbeddings(
         model="text-embedding-004",
@@ -119,6 +119,7 @@ def responder(pergunta: str) -> str:
     if _chain is None:
         raise RuntimeError('Modelo não inicializado')
     return _chain.invoke(pergunta)
+
 
 
 
