@@ -207,9 +207,12 @@ def pergunta_resposta_literal(pergunta, documentos):
     contexto_texto = "\n\n".join([doc.page_content for doc in fontes])
 
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "Você é um assistente corporativo. Responda apenas com base no contexto fornecido."),
-        ("system", "A busca foi literal. Foque apenas nas ocorrências exatas do termo pesquisado."),
-        ("system", "Se a resposta não estiver no contexto, diga que não encontrou a informação."),
+        ("system", """
+Você é um assistente corporativo.
+Responda apenas com base no contexto fornecido.
+A busca foi literal. Foque apenas nas ocorrências exatas do termo pesquisado.
+Se a resposta não estiver no contexto, diga que não encontrou a informação.
+"""),
         ("human", "Termo pesquisado: {termo}\n\nContexto:\n{contexto_texto}\n\nPergunta:\n{pergunta}")
     ])
 
