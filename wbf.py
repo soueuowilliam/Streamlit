@@ -21,9 +21,10 @@ st.set_page_config(page_title="Chat de Busca Literal", layout="wide")
 st.markdown("""
 <style>
 .chat-container {
+    width: 100%;
     max-width: 900px;
-    margin: 0 auto;
-    padding-bottom: 40px;
+    margin-left: auto;
+    margen-right: auto;
 }
 
 .user-message {
@@ -50,6 +51,13 @@ st.markdown("""
     word-wrap: break-word;
 }
 
+.main .block-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .bubble-bot {
     background-color: #F1F0F0;
     color: #000000;
@@ -70,6 +78,7 @@ st.markdown("""
 }
 
 .top-box {
+    width: 100%;
     max-width: 900px;
     margin: 0 auto 20px auto;
     padding: 16px;
