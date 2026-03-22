@@ -411,7 +411,7 @@ if st.session_state.mensagens:
                 """,
                 unsafe_allow_html=True
             )
-            time.sleep(0.1)
+            time.sleep(0.01)
 
         st.session_state.mensagens[-1]["content"] = resposta_texto
         st.rerun()
