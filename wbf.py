@@ -405,7 +405,7 @@ if st.session_state.mensagens:
             placeholder.markdown(
                 f"""
                 <div class="bot-message">
-                    <div class="avatar">🤖</div>
+                    <div class="avatar">🧠</div>
                     <div class="bubble-bot">{texto_parcial}</div>
                 </div>
                 """,
